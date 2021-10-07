@@ -24,12 +24,14 @@ export default class Login {
     }
     this.localStorage.setItem("user", JSON.stringify(user))
     const userExists = this.checkIfUserExists(user)
-    if (!userExists) this.createUser(user)
-    e.preventDefault()
-    this.onNavigate(ROUTES_PATH['Bills'])
-    this.PREVIOUS_LOCATION = ROUTES_PATH['Bills']
-    PREVIOUS_LOCATION = this.PREVIOUS_LOCATION
-    this.document.body.style.backgroundColor="#fff"
+    if (!userExists) {
+      this.createUser(user)
+      e.preventDefault()
+      this.onNavigate(ROUTES_PATH['Bills'])
+      this.PREVIOUS_LOCATION = ROUTES_PATH['Bills']
+      PREVIOUS_LOCATION = this.PREVIOUS_LOCATION
+      this.document.body.style.backgroundColor="#fff"
+    }
   }
 
   handleSubmitAdmin = e => {
@@ -41,15 +43,17 @@ export default class Login {
     }
     this.localStorage.setItem("user", JSON.stringify(user))
     const userExists = this.checkIfUserExists(user)
-    if (!userExists) this.createUser(user)
-    e.preventDefault()
-    this.onNavigate(ROUTES_PATH['Dashboard'])
-    this.PREVIOUS_LOCATION = ROUTES_PATH['Dashboard']
-    PREVIOUS_LOCATION = this.PREVIOUS_LOCATION
-    document.body.style.backgroundColor="#fff"
+    if (!userExists) {
+      this.createUser(user)
+      e.preventDefault()
+      this.onNavigate(ROUTES_PATH['Dashboard'])
+      this.PREVIOUS_LOCATION = ROUTES_PATH['Dashboard']
+      PREVIOUS_LOCATION = this.PREVIOUS_LOCATION
+      document.body.style.backgroundColor="#fff"
+    }
   }
 
-  // not need to cover this function by tests
+  /* istanbul ignore next */ 
   checkIfUserExists = (user) => {
     if (this.firestore) {
       this.firestore
@@ -69,7 +73,7 @@ export default class Login {
     }
   }
 
-  // not need to cover this function by tests
+  /* istanbul ignore next */ 
   createUser = (user) => {
     if (this.firestore) {
       this.firestore

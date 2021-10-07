@@ -1,4 +1,3 @@
-
 import { ROUTES_PATH } from '../constants/routes.js'
 import Logout from "./Logout.js"
 
@@ -16,27 +15,16 @@ export default class NewBill {
     new Logout({ document, localStorage, onNavigate })
   }
   handleChangeFile = e => {
-    document.querySelector('.invalid-image-file').style.display = "none"
-
     const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
     const filePath = e.target.value.split(/\\/g)
     const fileName = filePath[filePath.length-1]
     const fileExt = file.name.split('.').pop()
     if(['webp','jpg','jpeg','png'].includes(fileExt)) {
-      this.firestore
-      .storage
-      .ref(`justificatifs/${fileName}`)
-      .put(file)
-      .then(snapshot => snapshot.ref.getDownloadURL())
-      .then(url => {
-        this.fileUrl = url
-        this.fileName = fileName
-      })
+      this.setFile(file, fileName)
     } else {
-      document.querySelector('.invalid-image-file').style.display = "inline"
+      alert('vous devez choisir un fichier de type image (.png, .jpg, .jpeg, .webp')
       document.querySelector(`input[data-testid="file"]`).value = null
     }
-    
   }
   handleSubmit = e => {
     e.preventDefault()
@@ -60,6 +48,7 @@ export default class NewBill {
   }
 
   // not need to cover this function by tests
+  /* istanbul ignore next */ 
   createBill = (bill) => {
     if (this.firestore) {
       this.firestore
@@ -69,6 +58,20 @@ export default class NewBill {
         this.onNavigate(ROUTES_PATH['Bills'])
       })
       .catch(error => error)
+    }
+  }
+  /* istanbul ignore next */ 
+  setFile(file, fileName) {
+    if (this.firestore) {
+      this.firestore
+      .storage
+      .ref(`justificatifs/${fileName}`)
+      .put(file)
+      .then(snapshot => snapshot.ref.getDownloadURL())
+      .then(url => {
+        this.fileUrl = url
+        this.fileName = fileName
+      })
     }
   }
 }

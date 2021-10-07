@@ -42,6 +42,12 @@ describe('Given I am connected as an Admin', () => {
       expect(screen.getAllByText('Erreur')).toBeTruthy()
     })
   })
+  describe('when in jest environment', () => {
+    const selectCondition = undefined
+    it('jest variable should be undefined', () => {
+      expect(selectCondition).toBeUndefined()
+    })
+  })
 
   describe('When I am on Dashboard page and I click on arrow', () => {
     test('Then, tickets list should be unfolding, and cars should contain first and lastname', async () => {

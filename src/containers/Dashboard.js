@@ -8,9 +8,7 @@ import Logout from "./Logout.js"
 export const filteredBills = (data, status) => {
   return (data && data.length) ?
     data.filter(bill => {
-
       let selectCondition
-
       // in jest environment
       if (typeof jest !== 'undefined') {
         selectCondition = (bill.status === status)
@@ -21,7 +19,6 @@ export const filteredBills = (data, status) => {
           (bill.status === status) &&
           [...USERS_TEST, userEmail].includes(bill.email)
       }
-
       return selectCondition
     }) : []
 }
@@ -133,18 +130,18 @@ export default class {
   handleShowTickets(e, bills, index) {
     if (this.counter === undefined || this.index !== index) this.counter = 0
     if (this.index === undefined || this.index !== index) this.index = index
-    //compteur pair si liste ouverte
+    // even count if opened list
     if (this.counter % 2 === 0) {
       $(`#arrow-icon${this.index,index}`).css({ transform: 'rotate(0deg)'})
       $(`#status-bills-container${this.index}`)
         .html(cards(filteredBills(bills, getStatus(this.index))))
-      //ecoute du click sur les bills filtrées
+      //click monitoring on filtered bills
       filteredBills(bills, getStatus(this.index)).forEach(bill => {
         $(`#open-bill${bill.id}`).click((e) => this.handleEditTicket(e, bill, bills))
       })    
       this.counter ++
       return filteredBills(bills, getStatus(this.index))
-    //compteur impair si liste fermée
+    // odd count if closed list
     } else {
       $(`#arrow-icon${this.index}`).css({ transform: 'rotate(90deg)'})
       $(`#status-bills-container${this.index}`)
@@ -154,6 +151,7 @@ export default class {
   }
 
   // not need to cover this function by tests
+  /* istanbul ignore next */ 
   getBillsAllUsers = () => {
     if (this.firestore) {
       return this.firestore
@@ -174,6 +172,7 @@ export default class {
   }
     
   // not need to cover this function by tests
+  /* istanbul ignore next */ 
   updateBill = (bill) => {
     if (this.firestore) {
     return this.firestore

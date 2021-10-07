@@ -8,12 +8,19 @@ export default class {
     this.onNavigate = onNavigate
     this.firestore = firestore
     const buttonNewBill = document.querySelector(`button[data-testid="btn-new-bill"]`)
-    if (buttonNewBill) buttonNewBill.addEventListener('click', this.handleClickNewBill)
     const iconEye = document.querySelectorAll(`div[data-testid="icon-eye"]`)
-    if (iconEye) iconEye.forEach(icon => {
+    /* istanbul ignore next */
+    if (buttonNewBill && iconEye ) {
+      buttonNewBill.addEventListener('click', this.handleClickNewBill)
+      iconEye.forEach(icon => {
       icon.addEventListener('click', (e) => this.handleClickIconEye(icon))
+      new Logout({ document, localStorage, onNavigate })
     })
-    new Logout({ document, localStorage, onNavigate })
+    } 
+  }
+
+  handleClickNewBill = e => {
+    this.onNavigate(ROUTES_PATH['NewBill'])
   }
 
   handleClickNewBill = e => {
@@ -27,7 +34,7 @@ export default class {
     $('#modaleFile').modal('show')
   }
 
-  // not need to cover this function by tests
+  /* istanbul ignore next */ 
   getBills = () => {
     const userEmail = localStorage.getItem('user') ?
       JSON.parse(localStorage.getItem('user')).email : ""

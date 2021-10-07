@@ -61,10 +61,3 @@ textarea:focus, input:focus, select:focus {
 *[placeholder] {
   color: #0E5AE5 !important;
 }
-.invalid-image-file {
-  display: none;
-  color: #eee;
-  background-color: #0e5ae5;
-  padding: .5em;
-  border-radius: 5px;
-}
